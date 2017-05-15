@@ -76,7 +76,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/') }}">Home</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>
@@ -92,7 +92,9 @@
 
             <div class="content">
                 <div ng-controller="ListController as list">
+                    <div ng-bind="list.warn"></div>
                     <div>
+                        <div>Add To List</div>
                         <form name="listForm" novalidate>
                             {{csrf_field()}}
                             <input type="text" name="name" ng-model="list.item.name" required>
@@ -107,6 +109,15 @@
                             <span ng-bind="val"></span>
                         </li>
                     </ul>
+                    <div ng-if="list.mylist">
+                        <div>Delete from List</div>
+                        <form name="deleteForm" novalidate>
+                            {{csrf_field()}}
+                            <input type="text" name="name" ng-model="list.del.name" required>
+
+                            <button ng-disabled="deleteForm.$invalid" ng-click="list.deleteFromList();">Update </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 

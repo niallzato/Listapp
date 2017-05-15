@@ -11,12 +11,26 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//
+//
+//Route::get('login', function () {
+//    return view('welcome');
+//})->name('login');
+//
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/list', function () {
+        return view('list');
+    })->name('list');
+    //list api
+    Route::any('/add', 'ListController@add');
+    Route::get('/get', 'ListController@getItem');
+    Route::any('/del/{id?}', 'ListController@delete');
 });
 
-Route::any('/add', 'ListController@add');
 
-Route::get('/get', 'ListController@getItem');
+Auth::routes();
 
-Route::get('/del', 'ListController@delete');
+Route::get('/', 'HomeController@index')->name('home');

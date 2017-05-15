@@ -33,8 +33,8 @@ class ListController extends BaseController
         return;
     }
 
-    public function getItem(){
-        $name = Redis::get('list');
+    public function getItem($key = 'list'){
+        $name = Redis::get($key);
         return $name;
     }
 
@@ -44,8 +44,19 @@ class ListController extends BaseController
         return;
     }
 
-    public function delete(){
-        Redis::del('list');
-        dd(Redis::get('list'));
+    public function delete(Request $request){
+        $input = $request->all();
+        $key = $input['name'];
+        $this->deleteFromItem($key);
+        return;
+    }
+
+    private function deleteFromItem($index){
+        $list = $this->getItem();
+        $list = json_decode($list, true);
+        unset($list[$index]);
+        $list = json_encode($list);
+        Redis::set('list', $list);
+        return;
     }
 }
