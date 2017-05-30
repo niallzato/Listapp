@@ -10,7 +10,7 @@
         var list = this;
 
         list.mylist= "";
-        list.warn = '';
+        list.warn = 'gfgffgfg';
 
 
         var promise = ListService.getList();
