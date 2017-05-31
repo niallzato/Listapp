@@ -27,7 +27,8 @@ Route::group(['middleware' => 'auth'], function(){
     //list api
     Route::any('/add', 'ListController@add');
     Route::get('/get', 'ListController@getItem');
-    Route::any('/del/{id?}', 'ListController@delete');
+    Route::any('/del/{id?}', 'ListController@deleteItem');
+    Route::any('/delete', 'ListController@deleteList');
 });
 
 

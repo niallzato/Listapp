@@ -10,7 +10,7 @@
         var list = this;
 
         list.mylist= "";
-        list.warn = 'gfgffgfg';
+        list.warn = '';
 
 
         var promise = ListService.getList();
@@ -37,6 +37,20 @@
 
         list.deleteFromList = function() {
             var del = ListService.deleteFromList(list.del);
+
+            del.then(function (response){
+                return ListService.getList();
+            })
+            .catch(function (error){
+                list.warn = error;
+            })
+            .then(function(response){
+                list.mylist = response.data;
+            });
+        }
+
+        list.deleteList = function() {
+            var del = ListService.deleteList();
 
             del.then(function (response){
                 return ListService.getList();
@@ -94,6 +108,19 @@
 
             return response;
         }
+
+        service.deleteList = function(){
+            var response = $http({
+                method: 'POST',
+                url:'/delete',
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+
+            return response;
+        }
+
 
     }
 })();

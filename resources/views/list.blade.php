@@ -15,8 +15,8 @@
                 <div>Add To List</div>
                 <form name="listForm" novalidate>
                     {{csrf_field()}}
-                    <input type="text" name="name" ng-model="list.item.name" required>
-                    <input type="number" name="quantity" ng-model="list.item.quantity" required>
+                    <input placeholder="item" type="text" name="name" ng-model="list.item.name" required>
+                    <input placeholder="quantity" type="number" name="quantity" ng-model="list.item.quantity" required>
 
                     <button ng-disabled="listForm.$invalid" ng-click="list.updateList();">Update </button>
                 </form>
@@ -34,6 +34,11 @@
                     <input type="text" name="name" ng-model="list.del.name" required>
 
                     <button ng-disabled="deleteForm.$invalid" ng-click="list.deleteFromList();">Update </button>
+                </form>
+
+                <form name="deleteList" novalidate>
+                    {{csrf_field()}}
+                    <button ng-click="list.deleteList();">Clear List</button>
                 </form>
             </div>
         </div>
