@@ -35,7 +35,8 @@
 
                     <button ng-disabled="deleteForm.$invalid" ng-click="list.deleteFromList();">Update </button>
                 </form>
-
+                <br>
+                <br>
                 <form name="deleteList" novalidate>
                     {{csrf_field()}}
                     <button ng-click="list.deleteList();">Clear List</button>
