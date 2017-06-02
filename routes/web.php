@@ -22,15 +22,16 @@
 //
 Route::group(['middleware' => 'auth'], function(){
 
-//    Route::get('/lists', function () {
-//        return view('list');
-//    })->name('list');
+    Route::get('/lists', function () {
+        return view('lists');
+    })->name('lists');
 
-    Route::any('/lists', 'PageController@renderLists');
+    //Route::any('/lists', 'PageController@renderLists');
 
     Route::any('/list/{name?}', 'ListController@renderList');
 
     //list api
+    Route::get('/getlists', 'ListController@getLists');
     Route::any('/add', 'ListController@add');
     Route::get('/get', 'ListController@getItem');
     Route::any('/del/{id?}', 'ListController@deleteItem');

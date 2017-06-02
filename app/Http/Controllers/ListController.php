@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\UserList;
+use function MongoDB\BSON\toJSON;
 
 class ListController extends BaseController
 {
@@ -21,11 +22,11 @@ class ListController extends BaseController
 
     public function getLists($key = 'list'){
         $user = Auth::user();
-        $list = Redis::get($this->revision.$user->id.$key);
-        if (empty($list)){
-            $list = $this->getDB();
-        }
-        return $list;
+        //$lists = UserList::where('user_id', $user->id)->pluck('list');
+        $lists = UserList::where('user_id', $user->id)->get()->toJson();
+        //ists = json_encode($lists);
+
+        return $lists;
     }
 
     public function getItem($key = 'list'){

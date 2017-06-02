@@ -13,10 +13,16 @@
         list.warn = '';
 
 
-        var promise = ListService.getList();
+        var mylist = ListService.getList();
 
-        promise.then(function (response) {
+        mylist.then(function (response) {
             list.mylist = response.data;
+        });
+
+        var mylists = ListService.getLists();
+
+        mylists.then(function (response) {
+            list.mylists = response.data;
         });
 
 
@@ -80,6 +86,15 @@
                     name: item.name,
                     quant: item.quantity
                 }
+            })
+
+            return response;
+        }
+
+        service.getLists = function(){
+            var response = $http({
+                method: 'GET',
+                url:'/getlists'
             })
 
             return response;
