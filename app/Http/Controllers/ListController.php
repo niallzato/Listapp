@@ -19,6 +19,15 @@ class ListController extends BaseController
     //protected $ttl = 60*60*24*7;
     protected $ttl = 20;
 
+    public function getLists($key = 'list'){
+        $user = Auth::user();
+        $list = Redis::get($this->revision.$user->id.$key);
+        if (empty($list)){
+            $list = $this->getDB();
+        }
+        return $list;
+    }
+
     public function getItem($key = 'list'){
         $user = Auth::user();
         $list = Redis::get($this->revision.$user->id.$key);

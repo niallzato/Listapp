@@ -21,9 +21,15 @@
 //})->name('login');
 //
 Route::group(['middleware' => 'auth'], function(){
-    Route::get('/list', function () {
-        return view('list');
-    })->name('list');
+
+//    Route::get('/lists', function () {
+//        return view('list');
+//    })->name('list');
+
+    Route::any('/lists', 'PageController@renderLists');
+
+    Route::any('/list/{name?}', 'ListController@renderList');
+
     //list api
     Route::any('/add', 'ListController@add');
     Route::get('/get', 'ListController@getItem');
@@ -33,5 +39,4 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 Auth::routes();
-
 Route::get('/', 'HomeController@index')->name('home');
