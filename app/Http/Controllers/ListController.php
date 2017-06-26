@@ -20,27 +20,50 @@ class ListController extends BaseController
     //protected $ttl = 60*60*24*7;
     protected $ttl = 20;
 
+
+    public function renderListTest($name){
+        $user = Auth::user();
+        $list = $this->getList($name);
+        dd($list);
+  //      return view('list');
+//        //return view('list')->with('list', $list);
+    }
+
+    public function renderList($name){
+        $user = Auth::user();
+        $list = $this->getList($name);
+        //dd($list);
+        return view('list')->with('name', $name);
+        //return view('list')->with('list', $list);
+    }
+
     public function getLists($key = 'list'){
         $user = Auth::user();
-        //$lists = UserList::where('user_id', $user->id)->pluck('list');
         $lists = UserList::where('user_id', $user->id)->get()->toJson();
-        //ists = json_encode($lists);
 
         return $lists;
     }
 
-    public function getItem($key = 'list'){
+
+    public function getList($name){
         $user = Auth::user();
-        $list = Redis::get($this->revision.$user->id.$key);
+        $list = UserList::where('user_id', $user->id)->where('list_name',$name)->pluck('list')->toJson();
+
+        return $list;
+    }
+
+    public function getItem($key = 'list', $name){
+        $user = Auth::user();
+        $list = Redis::get($this->revision.$user->id.$key.$name);
         if (empty($list)){
             $list = $this->getDB();
         }
         return $list;
     }
 
-    public function add(Request $request){
+    public function add(Request $request, $name){
         $input = $request->all();
-        $this->setFromPost($input);
+        $this->setFromPost($input, $name);
         return;
     }
 
@@ -58,6 +81,21 @@ class ListController extends BaseController
         return;
     }
 
+    public function addList(Request $request){
+        $input = $request->all();
+        $key = $input['name'];
+        $this->createListDB($key);
+        return;
+    }
+
+    private function createListDB($key){
+        $user = Auth::user();
+        $userList = UserList::create(['user_id' => $user->id, 'list_name' => $key, 'list' => 'd']);
+
+        $userList->save();
+        return;
+    }
+
     private function deleteFromItem($index){
         $user = Auth::user();
         $list = $this->getItem();
@@ -70,11 +108,11 @@ class ListController extends BaseController
         return;
     }
 
-    private function setFromPost($request){
+    private function setFromPost($request, $name){
         $user = Auth::user();
         $quant = $request['quant'];
         $item = $request['name'];
-        $list = $this->getItem();
+        $list = $this->getItem($name);
 
         if (empty($list)){
             $list[$item] = $quant;

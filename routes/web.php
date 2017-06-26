@@ -29,10 +29,13 @@ Route::group(['middleware' => 'auth'], function(){
     //Route::any('/lists', 'PageController@renderLists');
 
     Route::any('/list/{name?}', 'ListController@renderList');
+    Route::any('/listtest/{name?}', 'ListController@renderListTest');
 
     //list api
+    Route::any('/addlist', 'ListController@addList');
     Route::get('/getlists', 'ListController@getLists');
-    Route::any('/add', 'ListController@add');
+    Route::get('/getlist/{name?}', 'ListController@getList');
+    Route::any('/add/{name?}', 'ListController@add');
     Route::get('/get', 'ListController@getItem');
     Route::any('/del/{id?}', 'ListController@deleteItem');
     Route::any('/delete', 'ListController@deleteList');

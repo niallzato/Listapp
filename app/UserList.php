@@ -9,6 +9,6 @@ class UserList extends Model
     protected $table = 'lists';
 
     protected $fillable = [
-        'user_id', 'list'
+        'user_id', 'list', 'list_name'
     ];
 }

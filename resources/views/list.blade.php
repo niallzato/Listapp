@@ -11,7 +11,9 @@
     <div class="content">
         <div ng-controller="ListController as list">
             <div ng-bind="list.warn"></div>
+            <div ng-bind="list.name"></div>fffff
             <div>
+
                 <div>Add To List</div>
                 <form name="listForm" novalidate>
                     {{csrf_field()}}
@@ -43,6 +45,7 @@
                 </form>
             </div>
         </div>
+        <a href="/lists">BAck ot lists -></a>
     </div>
 
 </div>
